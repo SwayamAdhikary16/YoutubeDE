@@ -20,6 +20,7 @@ def analyze_sentiment(video_id):
                   "negative": int,
                   "neutral": int,
                   "total": int
+                }
     """
     # function input output
     # Initialize counters for sentiment categories
