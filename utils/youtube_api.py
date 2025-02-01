@@ -11,6 +11,26 @@ YOUTUBE_VIDEO_URL = "https://www.googleapis.com/youtube/v3/videos"
 # Get the YouTube API key from environment variables
 YT_API_KEY = os.getenv('YT_API')
 
+def get_video_id(url): 
+    """
+    Extracts the video ID from a YouTube video URL.
+    
+    Args:
+        url (str): The URL of the YouTube video.
+    
+    Returns:
+        str: The video ID extracted from the URL.
+    """
+    # Check if the URL is a valid YouTube video URL
+    if "youtube.com" in url:
+        video_id = url.split("v=")[1]
+        return video_id
+    elif "youtu.be" in url:
+        video_id = url.split("/")[-1]
+        return video_id
+    else:
+        return None
+
 def fetch_video_data_numbers(video_id):
     """
     Fetches video statistics and snippet information for a given video ID.
