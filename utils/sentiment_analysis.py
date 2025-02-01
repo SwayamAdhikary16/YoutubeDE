@@ -6,6 +6,22 @@ import googleapiclient.discovery
 analyzer = SentimentIntensityAnalyzer()
 
 def analyze_sentiment(video_id):
+    """
+    Analyzes the sentiment of comments on a YouTube video.
+
+    Args:
+        video_id (str): The ID of the YouTube video.
+
+    Returns:
+        dict: A dictionary containing the count of positive, negative, and neutral comments, 
+              as well as the total number of comments analyzed.
+              {
+                  "positive": int,
+                  "negative": int,
+                  "neutral": int,
+                  "total": int
+    """
+    # function input output
     # Initialize counters for sentiment categories
     positives = 0 
     negatives = 0
@@ -14,7 +30,6 @@ def analyze_sentiment(video_id):
     # Fetch comments for the given video ID
     comms = yt.fetch_video_comments(video_id)
     comments = comms["comments"]
-
     # Analyze each comment's sentiment
     for comment in comments:
         sentiment_scores = analyzer.polarity_scores(comment)

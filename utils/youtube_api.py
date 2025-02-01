@@ -28,30 +28,30 @@ def fetch_video_data_numbers(video_id):
         "key": YT_API_KEY,
     }
 
-    # Send GET request to fetch video data
-    response = requests.get(YOUTUBE_VIDEO_URL, params=params)
+    try:
+        # Send GET request to fetch video data
+        response = requests.get(YOUTUBE_VIDEO_URL, params=params)
+        response.raise_for_status()
+    except requests.exceptions.RequestException as e:
+        return {"Error": str(e)}
 
-    # Check if the response is successful
-    if response.status_code == 200:
-        data = response.json()
-        
-        # Check if the video data is available
-        if "items" in data and len(data["items"]) > 0:
-            video_data = data["items"][0]
-            stats = video_data["statistics"]
+    data = response.json()
+    
+    # Check if the video data is available
+    if "items" in data and len(data["items"]) > 0:
+        video_data = data["items"][0]
+        stats = video_data["statistics"]
 
-            # Return the relevant video data
-            return {
-                "title": video_data["snippet"]["title"],
-                "channel": video_data["snippet"]["channelTitle"],
-                "views": stats.get("viewCount", "N/A"),
-                "likes": stats.get("likeCount", "N/A"),
-                "comments": stats.get("commentCount", "N/A")
-            }
-        else:
-            return {"Error": "Video not found"}
+        # Return the relevant video data
+        return {
+            "title": video_data["snippet"]["title"],
+            "channel": video_data["snippet"]["channelTitle"],
+            "views": stats.get("viewCount", "N/A"),
+            "likes": stats.get("likeCount", "N/A"),
+            "comments": stats.get("commentCount", "N/A")
+        }
     else:
-        return {"Error": [response.status_code, response.text]}
+        return {"Error": "Video not found"}
 
 def fetch_video_comments(video_id, max_results=1000):
     """
@@ -81,26 +81,26 @@ def fetch_video_comments(video_id, max_results=1000):
             "pageToken": next_page_token
         }
 
-        # Send GET request to fetch comments
-        response_comments = requests.get(YOUTUBE_COMMENTS_URL, params=params_comments)
+        try:
+            # Send GET request to fetch comments
+            response_comments = requests.get(YOUTUBE_COMMENTS_URL, params=params_comments)
+            response_comments.raise_for_status()
+        except requests.exceptions.RequestException as e:
+            return {"Error": str(e)}
 
-        # Check if the response for comments is successful
-        if response_comments.status_code == 200:
-            data_comments = response_comments.json()
-            
-            # Check if there are comments available
-            if "items" in data_comments:
-                for item in data_comments["items"]:
-                    comment = item["snippet"]["topLevelComment"]["snippet"]["textDisplay"]
-                    comments.append(comment)
-            else:
-                return {"Error": "No comments found."}
-            
-            next_page_token = data_comments.get("nextPageToken")
-            if not next_page_token:
-                break
+        data_comments = response_comments.json()
+        
+        # Check if there are comments available
+        if "items" in data_comments:
+            for item in data_comments["items"]:
+                comment = item["snippet"]["topLevelComment"]["snippet"]["textDisplay"]
+                comments.append(comment)
         else:
-            return {"Error": [response_comments.status_code, response_comments.text]}
+            return {"Error": "No comments found."}
+        
+        next_page_token = data_comments.get("nextPageToken")
+        if not next_page_token:
+            break
 
     # Clean the comments
     comments_df = pd.DataFrame(comments, columns=["Comment"])
