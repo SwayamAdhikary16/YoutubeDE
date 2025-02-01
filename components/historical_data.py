@@ -12,8 +12,7 @@ import pandas as pd
 # API Constants
 YOUTUBE_VIDEO_URL = "https://www.googleapis.com/youtube/v3/videos"
 YOUTUBE_COMMENT_URL = "https://www.googleapis.com/youtube/v3/commentThreads"
-YT_API_KEY = "AIzaSyAcFkFpkgehW4QV3qTewgfCpN5Wa7cueOU"  # Replace with your YouTube API key
-
+YT_API_KEY=os.getenv('YT_API_KEY')
 def fetch_video_data_numbers(video_id):
     
     # Parameters for the API request
