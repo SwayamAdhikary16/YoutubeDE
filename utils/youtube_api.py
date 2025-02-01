@@ -9,7 +9,7 @@ load_dotenv()
 # YouTube API endpoint for video details
 YOUTUBE_VIDEO_URL = "https://www.googleapis.com/youtube/v3/videos"
 # Get the YouTube API key from environment variables
-YT_API_KEY = os.getenv('YT_API')
+YT_API_KEY = os.getenv('YT_API_KEY')
 
 def get_video_id(url): 
     """
@@ -23,10 +23,10 @@ def get_video_id(url):
     """
     # Check if the URL is a valid YouTube video URL
     if "youtube.com" in url:
-        video_id = url.split("v=")[1]
+        video_id = url.split("v=")[1]   
         return video_id
     elif "youtu.be" in url:
-        video_id = url.split("/")[-1]
+        video_id = url.split("/")[-1].split("?")[0]
         return video_id
     else:
         return None
