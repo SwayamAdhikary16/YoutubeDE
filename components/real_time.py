@@ -1,3 +1,6 @@
+import sys
+import os 
+sys.path.insert(1, os.path.join(sys.path[0], '..'))
 from utils import youtube_api as yt
 
 def get_real_time_data(video_id):
