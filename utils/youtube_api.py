@@ -125,6 +125,8 @@ def fetch_video_comments(video_id, max_results=1000):
     # Clean the comments
     comments_df = pd.DataFrame(comments, columns=["Comment"])
     comments_df["CleanedComment"] = comments_df["Comment"].str.lower()
-   # comments_df["CleanedComment"] = comments_df["CleanedComment"].str.replace("[^a-zA-Z0-9\s]", "", regex=True)
+    comments_df["CleanedComment"] = comments_df["CleanedComment"].str.replace("[^a-zA-Z0-9\s]", "", regex=True)
 
     return {"comments": comments_df["CleanedComment"].tolist()}
+
+    
