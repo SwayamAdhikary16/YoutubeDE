@@ -1,6 +1,8 @@
-import youtube_api as yt 
+import sys
+import os 
+sys.path.insert(1, os.path.join(sys.path[0], '..'))
+import utils.youtube_api as yt 
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
-import googleapiclient.discovery
 
 # Initialize the sentiment analyzer
 analyzer = SentimentIntensityAnalyzer()

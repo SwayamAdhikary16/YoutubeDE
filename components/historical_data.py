@@ -50,10 +50,13 @@ def update_historical_data(video_id):
     else:
         print(f"Error fetching video data: {video_stats['Error']}")
 
-def get_historical_data():
+def get_historical_data(video_id):
     """
     Returns the stored historical data for visualization.
     """
+    for _ in range(5):
+        update_historical_data(video_id)
+        time.sleep(60)
     return historical_data
 
 if __name__ == "__main__":
